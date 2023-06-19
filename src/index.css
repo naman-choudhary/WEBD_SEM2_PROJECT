@@ -95,3 +95,7 @@ section {
     font-size: 1.1rem;
   }
 }
+
+body {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
