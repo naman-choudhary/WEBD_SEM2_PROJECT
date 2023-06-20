@@ -29,7 +29,7 @@ const BlogList = () => {
 };
 
 const BlogItem = ({ item }) => {
-	const { image, title, author, date, description, time } = item;
+	const { id, image, title, author, date, description, time } = item;
 
 	return (
 		<Col lg="4" md="6" sm="6" className="mb-5">
@@ -44,7 +44,7 @@ const BlogItem = ({ item }) => {
 					""
 				)}
 				<div className="blog__info p-3">
-					<Link to={`/blogs/${title}`} className="blog__title">
+					<Link to={`/blogs/${id}`} className="blog__title">
 						{title}
 					</Link>
 					<p className="section__description mt-3">
@@ -53,7 +53,7 @@ const BlogItem = ({ item }) => {
 							: description}
 					</p>
 
-					<Link to={`/blogs/${title}`} className="read__more">
+					<Link to={`/blogs/${id}`} className="read__more">
 						Read More
 					</Link>
 
