@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
-
 import { useParams } from "react-router-dom";
-import blogData from "../assets/data/blogData.js";
+import blogData1 from "../assets/data/blogData.js";
 import Helmet from "../components/Helmet/Helmet";
 import { Link } from "react-router-dom";
 
@@ -11,12 +11,29 @@ import commentImg from "../assets/all-images/ava-1.jpg";
 import "../styles/blog-details.css";
 
 const BlogDetails = () => {
+	const [blogData, setBlogData] = useState([]);
   const { slug } = useParams();
-  const blog = blogData.find((blog) => blog.title === slug);
+  const blog = blogData.find((blog) => blog.id === Number(slug));
+
+	useEffect(() => {
+    const fetchBlogs = async () => {
+      try{
+        const response = await axios.get("http://localhost:8080/blogs");
+        setBlogData(response.data);
+      }catch(error){
+        console.log("Error");
+      }
+    };
+    fetchBlogs();
+	}, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [blog]);
+
+  if(!blog){
+    return <div>Loading...</div>;
+  }
 
   return (
     <Helmet title={blog.title}>
@@ -30,15 +47,15 @@ const BlogDetails = () => {
 
                 <div className="blog__publisher d-flex align-items-center gap-4 mb-4">
                   <span className="blog__author">
-                    <i class="ri-user-line"></i> {blog.author}
+                    <i className="ri-user-line"></i> {blog.author}
                   </span>
 
                   <span className=" d-flex align-items-center gap-1 section__description">
-                    <i class="ri-calendar-line"></i> {blog.date}
+                    <i className="ri-calendar-line"></i> {blog.date}
                   </span>
 
                   <span className=" d-flex align-items-center gap-1 section__description">
-                    <i class="ri-time-line"></i> {blog.time}
+                    <i className="ri-time-line"></i> {blog.time}
                   </span>
                 </div>
 
@@ -64,7 +81,7 @@ const BlogDetails = () => {
                     </p>
 
                     <span className="replay d-flex align-items-center gap-1">
-                      <i class="ri-reply-line"></i> Replay
+                      <i className="ri-reply-line"></i> Replay
                     </span>
                   </div>
                 </div>
@@ -107,7 +124,7 @@ const BlogDetails = () => {
                   <div className="recent__blog-item d-flex gap-3">
                     <img src={item.imgUrl} alt="" className="w-25 rounded-2" />
                     <h6>
-                      <Link to={`/blogs/${item.title}`}>{blog.title}</Link>
+                      <Link to={`/blogs/${item.id}`}>{item.title}</Link>
                     </h6>
                   </div>
                 </div>
